@@ -10,7 +10,10 @@
     flake-utils.lib.eachDefaultSystem
       (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ (final: prev: { go = prev.go_1_22; }) ];
+          };
           name = "process-compose";
           version = "1.34.0";
           pkg = "github.com/f1bonacc1/${name}/src/config";
@@ -25,7 +28,7 @@
             "-w"
           ];
 
-          process-compose = pkgs.callPackage ./default.nix { inherit name ldFlags; };
+          process-compose = pkgs.callPackage ./default.nix { inherit name version ldFlags; };
           swag2op = pkgs.callPackage ./nix/swag2op.nix { };
           cmds = pkgs.callPackage ./nix/cmds.nix { inherit name ldFlags; };
         in

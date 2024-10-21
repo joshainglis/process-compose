@@ -2,6 +2,7 @@
 
 buildGoModule {
   pname = name;
+  version = version;
   src = lib.cleanSource ./.;
   vendorHash = "sha256-G4ar+9ARBwR77t/6NswUDXpUw38rYnLy9lIep302mNI=";
 
